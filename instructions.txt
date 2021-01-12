@@ -1,0 +1,24 @@
+For Run2
+step0 : GEN-SIM
+
+scram b
+
+cmsDriver.py Configuration/GenProduction/python/monoHiggsTauTau_fragment.py --fileout file:monoHiggsTauTau_18GS.root --mc --eventcontent RAWSIM,LHE --datatier GEN-SIM,LHE --conditions 102X_upgrade2018_realistic_v20 --beamspot Realistic25ns13TeVEarly2018Collision --step LHE,GEN,SIM --geometry DB:Extended --era Run2_2018 --python_filename monoHiggsTauTau_18GS_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 100
+
+cmsRun monoHiggsTauTau_18GS_cfg.py
+
+ step1:DIGI2RAW-HLT (DR)
+ voms-proxy-init
+
+cmsDriver.py step1 --filein file:monoHiggsTauTau_18GS.root --fileout file:monoHiggsTauTau_18DR_step1.root --pileup_input "dbs:/MinBias_TuneCP5_13TeV-pythia8/RunIIFall18GS-102X_upgrade2018_realistic_v9-v1/GEN-SIM" --mc --eventcontent PREMIXRAW --pileup "AVE_25_BX_25ns,{'N': 20}" --datatier GEN-SIM-RAW --conditions 102X_upgrade2018_realistic_v20 --step DIGI,DATAMIX,L1,DIGI2RAW,HLT:@relval2018 --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename monoHiggsTauTau_18DR_cfg.py --datamix PreMix --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 100
+
+cmsRun monoHiggsTauTau_18DR_cfg.py
+
+ step2: RECO
+ cmsDriver.py step2 --filein file:monoHiggsTauTau_18DR_step1.root --fileout file:monoHiggsTauTau_18DR_step2.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 102X_upgrade2018_realistic_v20 --step RAW2DIGI,L1Reco,RECO,RECOSIM,EI --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename monoHiggsTauTau_18DR_step2_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 100
+
+cmsRun monoHiggsTauTau_18DR_step2_cfg.py
+
+ Step3: MiniAODSIM
+ cmsDriver.py step1 --filein file:monoHiggsTauTau_18DR_step2.root --fileout file:monoHiggsTauTau_18DR_MiniAod.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 102X_upgrade2018_realistic_v20 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename monoHiggsTauTau_18DR_MiniAOD_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 100
+ 

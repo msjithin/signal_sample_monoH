@@ -1,0 +1,27 @@
+
+
+Following https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookChapter6
+
+
+Step 0 : GEN-SIM
+scram b
+
+cmsDriver.py Configuration/GenProduction/python/monoHiggsTauTau_fragment.py --fileout file:monoHtautau_18GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 102X_upgrade2018_realistic_v20  --beamspot Realistic25ns13TeVEarly2018Collision --step GEN,SIM --geometry DB:Extended --era Run2_2018 --python_filename monoHtautau_18GS_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring --customise_commands process.source.numberEventsInLuminosityBlock="cms.untracked.uint32(1408450)" -n 100
+
+cmsRun monoHtautau_18GS_cfg.py
+
+Step 1: DIGI2RAW-HLT (DR)
+
+
+cmsDriver.py step1 --filein file:monoHtautau_18GS.root---fileout file:monoHtautau18DR_step1.root --pileup_input "dbs:/MinBias_TuneCP5_13TeV-pythia8/RunIIFall18GS-102X_upgrade2018_realistic_v9-v1/GEN-SIM" --mc --eventcontent FEVTDEBUGHLT --pileup "AVE_25_BX_25ns,{'N': 20}" --datatier GEN-SIM-DIGI-RAW --conditions 102X_upgrade2018_realistic_v20 --step DIGI,L1,DIGI2RAW,HLT:@relval2018 --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename monoHtautau_18DR_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 100
+
+cmsRun monoHtautau_18DR_cfg.py
+
+
+step2: RECO
+cmsDriver.py step2 --filein file:monoHtautau18DR_step1.root --fileout file:monoHtautau18DR_step2.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 102X_upgrade2018_realistic_v20---step RAW2DIGI,L1Reco,RECO,RECOSIM,EI --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filenamemonoHtautau18DR_2_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 100 
+
+cmsRun -e -j BP2_rt.xml monoHtautau18DR_2_cfg.py
+
+ Step3: MiniAODSIM
+cmsDriver.py step1 --filein file:BPH-RunIIAutumn18DR_step2.root --fileout file:BPH-RunIIAutumn18MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 102X_upgrade2018_realistic_v15 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename BPH-RunIIAutumn18MiniAOD_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 100
