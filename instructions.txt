@@ -1,3 +1,8 @@
+FOllowing :
+
+https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookGenIntro
+https://github.com/fmanteca/monoH_MC_production_2017
+
 For Run2
 step0 : GEN-SIM
 
