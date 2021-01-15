@@ -1,8 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 
 externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
-                                     #    args = cms.vstring('/cvmfs/cms.cern.ch/phys_generator/gridpacks/slc6_amd64_gcc481/13TeV/madgraph/V5_2.3.0/monoHiggs/Zp2HDM/Zprime_A0h_A0chichi/v1/Zprime_A0h_A0chichi_MZp600_MA0300_tarball.tar.xz'),
-                                     args = cms.vstring('/hdfs/store/user/ms/gridPacks_2HDM/monoH_gridpacks/bbProduction/2HDMa_bb_sinp_0p1_tanb_1p0_mXd_10_MH3_1000_MH4_350_MH2_1000_MHC_1000_slc6_amd64_gcc630_CMSSW_9_3_8_tarball.tar.xz'),
+                                     args = cms.vstring('/hdfs/store/user/ms/gridPacks_2HDM/monoH_gridpacks/ggProduction/2HDMa_gg_sinp_0p35_tanb_0p5_mXd_10_MH3_600_MH4_150_MH2_600_MHC_600_slc6_amd64_gcc630_CMSSW_9_3_8_tarball.tar.xz'),
                                      nEvents = cms.untracked.uint32(5000),
                                      numberOfParameters = cms.uint32(1),
                                      outputFile = cms.string('cmsgrid_final.lhe'),
@@ -15,7 +14,7 @@ externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
 import FWCore.ParameterSet.Config as cms
 from Configuration.Generator.Pythia8CommonSettings_cfi import *
 from Configuration.Generator.MCTunes2017.PythiaCP5Settings_cfi import *
-from Configuration.Generator.Pythia8PowhegEmissionVetoSettings_cfi import *
+#from Configuration.Generator.Pythia8PowhegEmissionVetoSettings_cfi import *
 from Configuration.Generator.PSweightsPythia.PythiaPSweightsSettings_cfi import *
 
 generator = cms.EDFilter("Pythia8HadronizerFilter",
@@ -36,7 +35,6 @@ generator = cms.EDFilter("Pythia8HadronizerFilter",
                             ),
                              parameterSets = cms.vstring('pythia8CommonSettings',
                                                          'pythia8CP5Settings',
-                                                         'pythia8PowhegEmissionVetoSettings',
                                                          'pythia8PSweightsSettings',
                                                          'processParameters'
                                                      )

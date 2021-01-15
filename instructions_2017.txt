@@ -2,14 +2,16 @@
 
 Step 0  GEN-SIM
 
-cmsDriver.py Configuration/GenProduction/python/monoHiggsTauTau_fragment.py --fileout file:monoHiggsTauTau_wmLHEGS-00001.root --mc --eventcontent RAWSIM,LHE --datatier GEN-SIM,LHE --conditions 94X_mc2017_realistic_v17 --beamspot Realistic25ns13TeVEarly2017Collision --step LHE,GEN,SIM --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename monoHiggsTauTau_2017GS.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 41
+cmsDriver.py Configuration/GenProduction/python/monoHiggsTauTau_fragment.py --fileout file:monoHiggsTauTau_2017wmLHEGS-00001.root --mc --eventcontent RAWSIM,LHE --datatier GEN-SIM,LHE --conditions 94X_mc2017_realistic_v17 --beamspot Realistic25ns13TeVEarly2017Collision --step LHE,GEN,SIM --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename monoHiggsTauTau_2017GS.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 100
 
 cmsRun monoHiggsTauTau_2017GS.py
 
 
 Step 2  REDIGI
 
-cmsDriver.py step1 --filein file:monoHiggsTauTau_wmLHEGS-00001.root --fileout file:monoHiggsTauTau_2017DR_step1.root --pileup_input dbs:/Neutrino_E-10_gun/RunIISummer17PrePremix-MCv2_correctPU_94X_mc2017_realistic_v9-v1/GEN-SIM-DIGI-RAW --mc --eventcontent PREMIXRAW --datatier GEN-SIM-RAW --conditions 94X_mc2017_realistic_v17 --step DATAMIX,L1,DIGI2RAW,HLT:2e34v40 --nThreads 8 --datamix PreMix --era Run2_2017 --python_filename monoHiggsTauTau_2017DR.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 1751
+#    cmsDriver.py step1 --filein file:monoHiggsTauTau_2017wmLHEGS-00001.root --fileout file:monoHiggsTauTau_2017DR_step1.root --pileup_input dbs:/Neutrino_E-10_gun/RunIISummer17PrePremix-MCv2_correctPU_94X_mc2017_realistic_v9-v1/GEN-SIM-DIGI-RAW --mc --eventcontent PREMIXRAW --datatier GEN-SIM-RAW --conditions 94X_mc2017_realistic_v17 --step DATAMIX,L1,DIGI2RAW,HLT:2e34v40 --nThreads 8 --datamix PreMix --era Run2_2017 --python_filename monoHiggsTauTau_2017DR.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 1751
+
+cmsDriver.py step1 --filein file:monoHiggsTauTau_wmLHEGS-00001.root --fileout file:monoHiggsTauTau_2017DR_step1.root --pileup_input dbs:/Neutrino_E-10_gun/RunIISummer17PrePremix-MCv2_correctPU_94X_mc2017_realistic_v9-v1/GEN-SIM-DIGI-RAW --mc --eventcontent PREMIXRAW --datatier GEN-SIM-RAW --conditions 94X_mc2017_realistic_v17 --step DIGI,DATAMIX,L1,DIGI2RAW,HLT:@relval2017 --nThreads 8 --era Run2_2017 --python_filename monoHiggsTauTau_2017DR.py --datamix PreMix --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 1751
 
 cmsRun monoHiggsTauTau_2017DR.py
 
